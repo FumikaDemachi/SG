@@ -8,15 +8,16 @@ for band in ["100ghz","200ghz"]:
         name_ = "sg_{}_{}".format(band,stage)
         name_list.append(name_)
 
-def reader_freq():
-    for name in name_list:
-        rospy.init_node('e8257d_trigger')
-        pub_freq = rospy.Publisher("{}_freq".format(name), Float64, queue_size=1)
-        pub_power = rospy.Publisher("{}_power".format(name), Float64, queue_size=1)
-        pub_onoff = rospy.Publisher("{}_onoff".format(name), Int32, queue_size=1)
-        rate = rospy.Rate(0.2)
-        
-        while not rospy.is_shutdown():
+rospy.init_node('e8257d_trigger')
+rate = rospy.Rate(0.2)
+
+def reader():
+    while not rospy.is_shutdown():
+        for name in name_list:
+            pub_freq = rospy.Publisher("{}_freq".format(name), Float64, queue_size=1)
+            pub_power = rospy.Publisher("{}_power".format(name), Float64, queue_size=1)
+            pub_onoff = rospy.Publisher("{}_onoff".format(name), Int32, queue_size=1)
+
             msg_freq = Float64()
             msg_power = Float64()
             msg_onoff = Int32()
@@ -25,4 +26,7 @@ def reader_freq():
             pub_power.publish(msg_power)
             pub_onoff.publish(msg_onoff)
 
-            rate.sleep()
+        rate.sleep()
+
+if __name__ == '__main__':
+    reader()
