@@ -10,8 +10,8 @@ def reader():
     name_list = []
     for band in ["100ghz","200ghz"]:
         for stage in ["1st", "2nd_upper", "2nd_lower"]:
-            name_ = "sg_{}_{}".format(band,stage)
-            name_list.append(name_)
+            name = f"sg_{band}_{stage}"
+            name_list.append(name)
 
     rate = rospy.Rate(0.2)
     pub_freq_list = []
@@ -19,9 +19,9 @@ def reader():
     pub_onoff_list = []
 
     for name in name_list:
-        pub_freq = rospy.Publisher("{}_freq".format(name), Float64, queue_size=1)
-        pub_power = rospy.Publisher("{}_power".format(name), Float64, queue_size=1)
-        pub_onoff = rospy.Publisher("{}_onoff".format(name), Int32, queue_size=1)
+        pub_freq = rospy.Publisher(f"{name}_freq_cmd", Float64, queue_size=1)
+        pub_power = rospy.Publisher(f"{name}_power_cmd", Float64, queue_size=1)
+        pub_onoff = rospy.Publisher(f"{name}_onoff_cmd", Int32, queue_size=1)
         pub_freq_list.append(pub_freq)
         pub_power_list.append(pub_power)
         pub_onoff_list.append(pub_onoff)
