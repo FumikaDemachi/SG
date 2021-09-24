@@ -1,16 +1,18 @@
+#!/usr/bin/env python
+
 import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import Float64
 
-name_list = []
-for band in ["100ghz","200ghz"]:
-    for stage in ["1st", "2nd_upper", "2nd_lower"]:
-        name_ = "sg_{}_{}".format(band,stage)
-        name_list.append(name_)
-
 
 def reader():
     rospy.init_node('e8257d_trigger')
+    name_list = []
+    for band in ["100ghz","200ghz"]:
+        for stage in ["1st", "2nd_upper", "2nd_lower"]:
+            name_ = "sg_{}_{}".format(band,stage)
+            name_list.append(name_)
+
     rate = rospy.Rate(0.2)
     pub_freq_list = []
     pub_power_list = []
@@ -35,7 +37,6 @@ def reader():
         [publisher.publish(msg_power) for publisher in pub_power_list]
         [publisher.publish(msg_onoff) for publisher in pub_onoff_list]
             
-
         rate.sleep()
 
 if __name__ == '__main__':
