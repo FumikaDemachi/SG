@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
 import rospy
+import nampy as np
 from std_msgs.msg import Int32
 from std_msgs.msg import Float64
 
 
 def reader():
-    rospy.init_node('e8257d_trigger')
+    rospy.init_node("e8257d_trigger")
     name_list = []
-    for band in ["100ghz","200ghz"]:
+    for band in ["100ghz", "200ghz"]:
         for stage in ["1st", "2nd_upper", "2nd_lower"]:
             name = f"sg_{band}_{stage}"
             name_list.append(name)
@@ -26,18 +27,18 @@ def reader():
         pub_power_list.append(pub_power)
         pub_onoff_list.append(pub_onoff)
 
-
     while not rospy.is_shutdown():
-        
-        msg_freq = Float64()
-        msg_power = Float64()
-        msg_onoff = Int32()
+
+        msg_freq = Float64(np.nan)
+        msg_power = Float64(np.nan)
+        msg_onoff = Int32(-1)
 
         [publisher.publish(msg_freq) for publisher in pub_freq_list]
         [publisher.publish(msg_power) for publisher in pub_power_list]
         [publisher.publish(msg_onoff) for publisher in pub_onoff_list]
-            
+
         rate.sleep()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     reader()
