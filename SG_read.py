@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-import nampy as np
+import numpy as np
 from std_msgs.msg import Int32
 from std_msgs.msg import Float64
 
